@@ -1,4 +1,4 @@
-# Data-Anallysis-of-Awesome-Chocolate-
+# Data-Analysis-of-Awesome-Chocolate-
 Analysis of Chocolate dataset using Mysql
 
 Got the data from website :
