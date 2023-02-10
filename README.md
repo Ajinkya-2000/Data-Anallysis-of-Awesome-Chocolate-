@@ -27,6 +27,6 @@ Part 3
 Apply group by clause and create reports
 
 
-Conducted data analysis on chocolate datasets using mysql, uncovering certain key insights
+Conducted data analysis on chocolate datasets using mysql, uncovering certain key insights.
 Generated report which gives insights on the sales of popular chocolate products
 
