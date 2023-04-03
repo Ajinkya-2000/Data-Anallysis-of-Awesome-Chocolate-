@@ -103,3 +103,66 @@ sales s join products pr on s.pid = pr.pid
 group by pr.Product
 order by sum(s.Amount) desc
 limit 10;
+
+# Details of shipment where amount is greater than 2000 and boxes less than 100
+select * from sales
+where amount > 2000 and boxes < 100
+order by amount desc;
+
+# How many shipments each salesperson had in the month of january 2022
+select p.Salesperson,count(s.SPID) as 'Total Shipments'
+from sales s join people p
+where s.SPID = p.SPID and s.SaleDate between '2022-01-01' and '2022-01-31'
+group by s.SPID
+order by count(s.SPID) desc;
+
+# Which product sell more boxes ? Milk bars or Eclairs
+select p.Product,count(s.Boxes) as 'Total Boxes' from sales s join products p 
+where s.PID = p.PID and s.PID in ('P01','P06')
+group by s.PID;
+
+# What are the names of salespersons who had at least 5 shipment (sale) 
+# in the first 7 days of January 2022?
+select p.Salesperson,count(s.SPID) as 'Total Shipments'
+from sales s join people p
+where s.SPID = p.SPID and s.SaleDate between '2022-01-01' and '2022-01-07'
+group by s.SPID
+having count(s.SPID) >= 5
+order by count(s.SPID) desc;
+
+# Which salespersons did not make any shipments in the first 7 days of January 2022?
+select Salesperson from people 
+where SPID not in 
+(select distinct spid from sales where SaleDate between '2022-01-01' and '2022-01-07'); 
+
+# Names of top 5 Salesperson in the month of March 2022 based on amount of sales performed
+# Display Salesperson Total_Amount
+select p.Salesperson,sum(s.Amount) as 'Total Amount'
+from sales s join people p
+where s.SPID = p.SPID and s.SaleDate between '2022-03-01' and '2022-03-31'
+group by s.SPID
+order by sum(s.Amount) desc
+limit 5;
+
+# How many times we shipped more than 1,000 boxes in each month?
+select year(saledate) as 'Year', month(saledate) as 'Month', count(*) as 'Times we shipped 1k boxes'
+from sales
+where boxes>1000
+group by year(saledate), month(saledate)
+order by year(saledate), month(saledate);
+
+
+# India or Australia? Who buys more chocolate boxes on a monthly basis?
+select year(saledate) 'Year', month(saledate) 'Month',
+sum(CASE WHEN g.geo='India' = 1 THEN boxes ELSE 0 END) 'India Boxes',
+sum(CASE WHEN g.geo='Australia' = 1 THEN boxes ELSE 0 END) 'Australia Boxes'
+from sales s
+join geo g on g.GeoID=s.GeoID
+group by year(saledate), month(saledate)
+order by year(saledate), month(saledate);
+
+
+
+
+
+
